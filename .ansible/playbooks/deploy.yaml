@@ -1,0 +1,6 @@
+- name: Deploy
+  hosts: iprocess
+
+  tasks:
+    - name: Deploy
+      command: '~/.deploy/iprocess.sh'
