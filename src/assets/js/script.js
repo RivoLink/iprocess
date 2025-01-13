@@ -1,3 +1,5 @@
+/* global fleet */ // eslint config
+
 document.addEventListener('DOMContentLoaded', () => {
     const isLight = (localStorage.getItem('iprocess-theme') == 'light');
     
@@ -11,34 +13,34 @@ document.addEventListener('DOMContentLoaded', () => {
         fleet.setText(e.target, isDark ? '🌙 Dark Mode' : '☀️ Light Mode');
         
         localStorage.setItem('iprocess-theme', isDark ? 'light' : 'dark');
-    })
+    });
     
     fleet.find('modal-image').addEventListener('click', (e) => {
         const close = () => {
             fleet.removeClass('#modal-image', 'show');
             fleet.setAttr('#preview-img', {src: ''});
-        }
+        };
     
         if (e.target === fleet.find('modal-image')) {
             close();
         } else if (fleet.hasClass(e.target, 'close')) {
             close();
         }
-    })
+    });
     
     fleet.select('.upload-container').addEventListener('drop', (e) => {
-        handleFiles(Array.from(e.dataTransfer.files))
-    })
+        handleFiles(Array.from(e.dataTransfer.files));
+    });
     
     fleet.find('file-upload').addEventListener('change', (e) => {
         handleFiles(e.target.files);
-    })
+    });
 
     Array.from(['dragenter', 'dragover', 'dragleave', 'drop']).forEach(event => {
         fleet.addEvent('.upload-container', event, e => e.preventDefault());
         fleet.addEvent('.upload-container', event, e => e.stopPropagation());
-    })
-})
+    });
+});
 
 document.addEventListener('paste', (e) => {
     const files = Array.from(e.clipboardData.items)
@@ -46,7 +48,7 @@ document.addEventListener('paste', (e) => {
         .map(item => item.getAsFile());
 
     handleFiles(files);
-})
+});
 
 function showNotif(type, message) {
     const notif = fleet.create('div');
@@ -70,12 +72,12 @@ function handleFiles(files = []) {
     const hasValidType = (file) => {
         const validTypes = ['image/jpeg', 'image/png'];
         return file && validTypes.includes(file.type);
-    }
+    };
 
     const hasValidSize = (file) => {
         const maxSize = 1 * 1024 * 1024;
         return file && (file.size <= maxSize);
-    }
+    };
 
     if (hasValidType(files[0]) && hasValidSize(files[0])) {
         const reader = new FileReader();
@@ -84,7 +86,7 @@ function handleFiles(files = []) {
 
             fleet.addClass(newCard, 'card');
             fleet.setHTML(newCard, fleet.getHTML('#card-template'));
-            fleet.setAttr(fleet.child(newCard, 'img'), {src: reader.result})
+            fleet.setAttr(fleet.child(newCard, 'img'), {src: reader.result});
             fleet.prepend('#card-container', newCard);
 
             setupEvents(newCard);
@@ -114,7 +116,7 @@ function dropdownEngineEvent(parent) {
 
     card.addEvent('.dropdown-act', 'click', () => {
         card.toggleClass(dropdownContent, 'show');
-    })
+    });
 
     card.addEvent('.dropdown-content a', 'click', (e) => {
         e.preventDefault();
@@ -126,7 +128,7 @@ function dropdownEngineEvent(parent) {
 
         card.removeClass('.description', 'show');
         card.addClass('.description.'+engine, 'show');
-    })
+    });
 }
 
 function toggleOutputEvent(parent) {
@@ -146,7 +148,7 @@ function toggleOutputEvent(parent) {
                 card.addClass(output, 'collapsed');
             }, 300);
         }
-    })
+    });
 }
 
 function previewImageEvent(parent) {
@@ -167,23 +169,23 @@ function previewImageEvent(parent) {
         fleet.addClass('#modal-image', 'show');
 
         toggleOutputEvent(fleet.find('modal-image'));
-    })
+    });
 }
 
 function runProcessEvent(parent) {
     const card = fleet.init(parent);
 
-    card.addEvent('.run-btn', 'click', (e) => {
+    card.addEvent('.run-btn', 'click', () => {
         toggleLoader(true);
 
         const url = 'https://api.rivolink.mg/api/image/ocr/v1/process';
         const data = {
             base64: card.getAttr('img', 'src'),
             engine: card.getData('.dropdown-btn', 'value'),
-        }
+        };
 
         fleet.ajaxPost(url, window._token, data, onSuccess, onError);
-    })
+    });
 
     const onSuccess = (result = {}, params = {}) => {
         if (result.process_id) {
@@ -192,7 +194,7 @@ function runProcessEvent(parent) {
             toggleLoader(false);
             showError(result.message, params);
         }
-    }
+    };
 
     const checkOutput = (process_id, params, maxLoops = 10, currIndex = 0) => setTimeout(() => {
         if (currIndex < maxLoops) {
@@ -214,12 +216,12 @@ function runProcessEvent(parent) {
 
     const getEngineName = (code) => {
         return fleet.getText(`[data-value='${code}']`);
-    }
+    };
 
     const onError = (params) => {
         toggleLoader(false);
         showError(null, params);
-    }
+    };
 
     const toggleLoader = (show) => {
         if (show) {
@@ -229,13 +231,13 @@ function runProcessEvent(parent) {
             card.removeClass('span', 'show');
             card.addClass('span.icon', 'show');
         }
-    }
+    };
 
     const showOutput = (output, params = {}) => {
         const html = card.getHTML('.output-text');
         const span = card.$tag('span', '', output || '--');
 
-        const engineName = getEngineName(params.engine)
+        const engineName = getEngineName(params.engine);
         const engineSpan = card.$tag('span', 'engine', `[${engineName}] `);
 
         if (html) {
@@ -245,13 +247,13 @@ function runProcessEvent(parent) {
             card.setHTML('.output-text', `${engineSpan}${span}`);
             card.addClass('.output', 'show');
         }
-    }
+    };
 
     const showError = (error, params = {}) => {
         const html = card.getHTML('.output-text');
         const span = card.$tag('span', 'error', error || 'An error occured, please try again.');
 
-        const engineName = getEngineName(params.engine)
+        const engineName = getEngineName(params.engine);
         const engineSpan = card.$tag('span', 'engine', `[${engineName}] `);
 
         if (html) {
@@ -261,5 +263,5 @@ function runProcessEvent(parent) {
             card.setHTML('.output-text', `${engineSpan}${span}`);
             card.addClass('.output', 'show');
         }
-    }
+    };
 }
