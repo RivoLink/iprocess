@@ -12,6 +12,13 @@
     --button-bg-hover: #5f5f5f;
     --button-text: #ffffff;
     --svg-path: #333333;
+    --svg-path-2: #ffffff;
+    --color-red: #e9573f;
+    --color-red-hover: #e96e5a;
+    --color-green: #80c152;
+    --color-green-hover: #92c170;
+    --color-blue: #3bafda;
+    --color-blue-hover: #5db8da;
     --shadow: rgba(0, 0, 0, 0.1);
 }
 
@@ -29,6 +36,13 @@
     --button-bg-hover: #4b4a4a;
     --button-text: #ffffff;
     --svg-path: #ebebeb;
+    --svg-path-2: #ebebeb;
+    --color-red: #e9573f;
+    --color-red-hover: #e96e5a;
+    --color-green: #80c152;
+    --color-green-hover: #92c170;
+    --color-blue: #3bafda;
+    --color-blue-hover: #5db8da;
     --shadow: rgba(0, 0, 0, 0.3);
 }
 
@@ -191,19 +205,39 @@ body {
     display: none;
 }
 
-.upload-buttons label {
+.upload-buttons label,
+.upload-buttons button {
     cursor: pointer;
     color: #fff;
     display: inline-block;
     border: none;
     border-radius: 5px;
-    padding: 7px 25px;
-    font-size: 16px;
     background-color: var(--button-bg);
     box-shadow: 0 2px 5px var(--shadow);
 }
 
-.upload-buttons label:hover {
+.upload-buttons label {
+    padding: 7px 25px;
+    font-size: 16px;
+}
+
+.upload-buttons button {
+    width: 41px;
+}
+
+.upload-container svg {
+    margin-left: 1px;
+    display: flex;
+    align-self: center;
+    justify-self: center;
+}
+
+.upload-container svg path {
+    stroke: var(--svg-path-2);
+}
+
+.upload-buttons label:hover,
+.upload-buttons button:hover {
     background-color: var(--button-bg-hover);
 }
 
@@ -516,7 +550,7 @@ body {
     border-bottom: 0;
 }
 
-#modal-image {
+.modal {
     display: none;
     position: fixed;
     top: 0;
@@ -531,16 +565,11 @@ body {
     transition: opacity 2s linear;
 }
 
-#modal-image img {
-    max-width: 90%;
-    max-height: 75vh;
-}
-
-#modal-image.show {
+.modal.show {
     display: flex;
 }
 
-#modal-image .content {
+.modal .content {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -549,6 +578,27 @@ body {
     border-radius: 20px;
     overflow: hidden;
     align-items: center;
+}
+
+.modal .close {
+    z-index: 1;
+    cursor: pointer;
+    font-size: 22px;
+    color: var(--text-primary);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--bg-primary);
+}
+
+#modal-image img {
+    max-width: 90%;
+    max-height: 75vh;
 }
 
 #modal-image img {
@@ -566,17 +616,77 @@ body {
     margin-left: 10px;
 }
 
-#modal-image .close {
-    cursor: pointer;
-    font-size: 22px;
-    color: var(--text-primary);
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 30px;
-    height: 30px;
+#modal-webcam .content {
+    max-height: 75vh;
+}
+
+#modal-webcam .video-container {
     display: flex;
+}
+
+#modal-webcam video {
+    width: 100%;
+}
+
+#modal-webcam .webcam-buttons {
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    gap: 12px;
+    padding: 10px 0px;
+}
+
+#modal-webcam button {
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--button-text);
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    border: none;
     border-radius: 50%;
-    background-color: var(--bg-primary);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#modal-webcam button.absolute {
+    position: absolute;
+}
+
+#modal-webcam button.red {
+    background-color: var(--color-red);
+}
+
+#modal-webcam button.green {
+    background-color: var(--color-green);
+}
+
+#modal-webcam button.blue {
+    background-color: var(--color-blue);
+}
+
+#modal-webcam button.red:hover {
+    background-color: var(--color-red-hover);
+}
+
+#modal-webcam button.green:hover {
+    background-color: var(--color-green-hover);
+}
+
+#modal-webcam button.blue:hover {
+    background-color: var(--color-blue-hover);
+}
+
+#modal-webcam button.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#modal-webcam button.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
 }
