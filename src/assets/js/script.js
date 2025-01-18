@@ -1,6 +1,8 @@
 /* global fleet */ // eslint config
 
 document.addEventListener('DOMContentLoaded', () => {
+    fleet.global = {};
+
     const isLight = (localStorage.getItem('iprocess-theme') == 'light');
     
     fleet.setData(document.body, {theme: isLight ? 'light' : 'dark'});
@@ -39,6 +41,64 @@ document.addEventListener('DOMContentLoaded', () => {
     Array.from(['dragenter', 'dragover', 'dragleave', 'drop']).forEach(event => {
         fleet.addEvent('.upload-container', event, e => e.preventDefault());
         fleet.addEvent('.upload-container', event, e => e.stopPropagation());
+    });
+
+    fleet.find('open-webcam-btn').addEventListener('click', () => {
+        startWebcam();
+    });
+
+    fleet.find('webcam-cancel-btn').addEventListener('click', () => {
+        closeWebcamModal();
+    });
+
+    fleet.find('webcam-check-btn').addEventListener('click', () => {
+        var retryBtn = fleet.find('webcam-retry-btn');
+
+        const captureImage = () => {
+            const webcam = fleet.find('webcam');
+            const canvas = fleet.create('canvas');
+
+            canvas.width = webcam.videoWidth;
+            canvas.height = webcam.videoHeight;
+            canvas.getContext('2d').drawImage(webcam, 0, 0, canvas.width, canvas.height);
+
+            fleet.find('captured-image').src = canvas.toDataURL('image/png');
+
+            fleet.setCSS('.webcam-preview', {display: 'flex'});
+            fleet.setCSS('.video-container', {display: 'none'});
+        };
+
+        const saveImage = () => {
+            const base64 = fleet.getAttr('#captured-image', 'src');
+            const file = base64ToFile(base64, 'webcam.png');
+
+            closeWebcamModal();
+            handleFiles([file]);
+        };
+
+        if (fleet.hasClass(retryBtn, 'hidden')) {
+            captureImage();
+
+            fleet.removeClass(retryBtn, 'absolute');
+            fleet.removeClass(retryBtn, 'hidden');
+            fleet.addClass(retryBtn, 'visible');
+        } else {
+            saveImage();
+        }
+
+        stopWebcam();
+    });
+
+    fleet.find('webcam-retry-btn').addEventListener('click', () => {
+        var retryBtn = fleet.find('webcam-retry-btn');
+
+        if (!fleet.hasClass(retryBtn, 'hidden')) {
+            fleet.removeClass(retryBtn, 'visible');
+            fleet.addClass(retryBtn, 'hidden');
+            setTimeout(() => fleet.addClass(retryBtn, 'absolute'), 200);
+        }
+
+        startWebcam();
     });
 });
 
@@ -264,4 +324,75 @@ function runProcessEvent(parent) {
             card.addClass('.output', 'show');
         }
     };
+}
+
+function saveWebcamSize() {
+    if (fleet.global.savedSize) {
+        return;
+    }
+
+    fleet.global.savedSize = true;
+
+    const rect = fleet
+        .select('.webcam-content video')
+        .getBoundingClientRect();
+
+    fleet.setCSS('.webcam-content', {
+        width: rect.width + 'px',
+        height: rect.height + 'px',
+    });
+}
+
+function startWebcam() {
+    navigator.mediaDevices.getUserMedia({
+        video: {facingMode: {exact: 'environment'}}
+    }).catch(() => {
+        return navigator.mediaDevices.getUserMedia({video: true});
+    }).then((stream) => {
+        fleet.global.stream = stream;
+
+        fleet.setCSS('.webcam-preview', {display: 'none'});
+        fleet.setCSS('.video-container', {display: 'flex'});
+
+        fleet.find('webcam').srcObject = stream;
+        fleet.addClass('#modal-webcam', 'show');
+
+        setTimeout(saveWebcamSize, 500);
+    }).catch(() => {
+        showNotif('error', 'Error: Webcam authorization failed.');
+    });
+}
+
+function stopWebcam() {
+    if (fleet.global.stream) {
+        fleet.global.stream
+            .getTracks()
+            .forEach(track => track.stop());
+    }
+
+    fleet.global.stream = null;
+    fleet.find('webcam').srcObject = null;
+}
+
+function closeWebcamModal() {
+    fleet.removeClass('#modal-webcam', 'show');
+    fleet.removeClass('#webcam-retry-btn', 'visible');
+
+    fleet.addClass('#webcam-retry-btn', 'hidden');
+    fleet.addClass('#webcam-retry-btn', 'absolute');
+
+    stopWebcam();
+}
+
+function base64ToFile(base64, fileName) {
+    const [metadata, data] = base64.split(',');
+    const contentType = metadata.match(/:(.*?);/)[1];
+    const binaryData = atob(data);
+
+    const arrayBuffer = new Uint8Array(binaryData.length);
+    for (var i = 0; i < binaryData.length; i++) {
+        arrayBuffer[i] = binaryData.charCodeAt(i);
+    }
+
+    return new File([arrayBuffer], fileName, {type: contentType});
 }
