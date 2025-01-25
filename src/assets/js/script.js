@@ -257,23 +257,25 @@ function runProcessEvent(parent) {
         }
     };
 
-    const checkOutput = (process_id, params, maxLoops = 10, currIndex = 0) => setTimeout(() => {
-        if (currIndex < maxLoops) {
-            const url = 'https://api.rivolink.mg/api/image/ocr/v1/check/' + process_id;
+    const checkOutput = (process_id, params, maxLoops = 10, currLoop = 1) => setTimeout(() => {
+        const url = 'https://api.rivolink.mg/api/image/ocr/v1/check/' + process_id;
 
-            fleet.ajaxGet(url, window._token, (result = {}) => {
-                if (result.code == 'PENDING') {
-                    checkOutput(process_id, params, maxLoops, currIndex + 1);
-                } else if (result.code == 'SUCCESS') {
-                    toggleLoader(false);
-                    showOutput(result.output, params);
+        fleet.ajaxGet(url, window._token, (result = {}) => {
+            if ((result.code == 'PENDING')) {
+                if (currLoop < maxLoops) {
+                    checkOutput(process_id, params, maxLoops, currLoop + 1);
                 } else {
-                    toggleLoader(false);
-                    showError(result.message, params);
+                    onError(params);
                 }
-            }, onError);
-        }
-    }, 1000 + 500 * currIndex);
+            } else if (result.code == 'SUCCESS') {
+                toggleLoader(false);
+                showOutput(result.output, params);
+            } else {
+                toggleLoader(false);
+                showError(result.message, params);
+            }
+        }, onError);
+    }, 1000 + 500 * currLoop);
 
     const getEngineName = (code) => {
         return fleet.getText(`[data-value='${code}']`);
