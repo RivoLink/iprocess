@@ -145,6 +145,7 @@ function handleFiles(files = []) {
             const newCard = fleet.create('div');
 
             fleet.addClass(newCard, 'card');
+            fleet.setCSS(newCard, {'z-index': fleet.count('.card')});
             fleet.setHTML(newCard, fleet.getHTML('#card-template'));
             fleet.setAttr(fleet.child(newCard, 'img'), {src: reader.result});
             fleet.prepend('#card-container', newCard);
