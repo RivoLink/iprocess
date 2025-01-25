@@ -67,6 +67,7 @@ body {
 }
 
 .presentation button {
+    user-select: none;
     cursor: pointer;
     color: var(--button-text);
     margin: 0px;
@@ -207,6 +208,7 @@ body {
 
 .upload-buttons label,
 .upload-buttons button {
+    user-select: none;
     cursor: pointer;
     color: #fff;
     display: inline-block;
@@ -374,6 +376,7 @@ body {
 }
 
 .run-btn {
+    user-select: none;
     cursor: pointer;
     color: var(--button-text);
     width: 40px;
@@ -406,9 +409,8 @@ body {
 }
 
 .run-btn .icon {
-    font-size: 20px;
     position: relative;
-    top: -1px;
+    top: 2px;
     left: 2px;
 }
 
@@ -525,8 +527,8 @@ body {
 .output-toggle {
     cursor: pointer;
     position: absolute;
-    top: 4px;
-    right: 16px;
+    top: 5px;
+    right: 15px;
     padding: 5px;
 }
 
@@ -536,9 +538,10 @@ body {
     height: 0;
     content: "";
     border-top: 0;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid;
-    border-left: 8px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid;
+    border-left: 10px solid transparent;
+    border-radius: 5px;
 }
 
 .output.collapsed .output-toggle::after {
@@ -546,7 +549,7 @@ body {
     width: 0;
     height: 0;
     content: "";
-    border-top: 8px solid;
+    border-top: 10px solid;
     border-bottom: 0;
 }
 
@@ -637,6 +640,7 @@ body {
 }
 
 #modal-webcam button {
+    user-select: none;
     cursor: pointer;
     font-size: 16px;
     color: var(--button-text);
