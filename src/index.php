@@ -106,10 +106,7 @@
             <img id="preview-img" src="/assets/img/logo.png" alt="Full Image">
             <div class="output expanded">
                 <div class="output-toggle"></div>
-                <div class="output-text">
-                    PaddleOCR aims to create multilingual, awesome, leading, and practical OCR tools 
-                    that help users train better models and apply them into practice. [PaddleOCR]
-                </div>
+                <div class="output-text"></div>
             </div>
         </div>
     </div>
