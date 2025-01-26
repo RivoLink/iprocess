@@ -73,7 +73,7 @@
                         <div class="dropdown-content">
                             <a href="#" data-value="tesseract">Tesseract</a>
                             <a href="#" data-value="paddleocr">Paddleocr</a>
-                            <a href="#" data-value="mistral">Mistral: Pixtral</a>
+                            <a href="#" data-value="mistral">Pixtral by Mistral</a>
                         </div>
                         <span class="dropdown-act dropdown-icon">&#9998;</span>
                     </div>
