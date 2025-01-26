@@ -1,4 +1,4 @@
-<!-- iProcess - v1.1.1 | @RivoLink -->
+<!-- iProcess - v1.2.0 | @RivoLink -->
 <?php $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MzY3OTAxNTAsImV4cCI6MTc2ODMyNjE1MCwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJkb21haW4iOiJpcHJvY2Vzcy5yaXZvbGluay5tZyIsInZlcnNpb24iOiIxLjAuMCIsInVzZXJuYW1lIjoiUml2b0xpbmsifQ.viV7fXQxYXEuqWaZuiPcUEUMDWR3rB6YQiVKDHG53rAx2RIAd7ToK3PRDLTUs_P-HflXvweTUf_JlVnubghHDvMZSnI2WdqghxuDK_cd9pBpPPYM03daWfqCx7nClC2nXqJSNK6a0PoFo4TSqXjus54cZvnvewKAVis-_TrtPqPS7ANXg6R0BEsq6ihhjdnKYCsIc7RVFgQQwJdaAC5dVYy85lze9ju2SfZIeR_fS2mFGzs7c7hXXHw1B126wrY4SLqs8jsoX9uB_VOX-qu8f2UMzOHH3x4Z5CnY2IpGhClAeJqxd6tt9UbxJe1HuTN9YZKH2kOlriRjoJekPWLeCQ'; ?><!DOCTYPE html><html
 lang="en"><head><meta
 charset="UTF-8"/><meta
@@ -62,7 +62,9 @@ class="dropdown-content">
 <a
 href="#" data-value="tesseract">Tesseract</a>
 <a
-href="#" data-value="paddleocr">Paddleocr</a></div>
+href="#" data-value="paddleocr">Paddleocr</a>
+<a
+href="#" data-value="mistral">Mistral: Pixtral</a></div>
 <span
 class="dropdown-act dropdown-icon">&#9998;</span></div><div
 class="description tesseract show">
@@ -70,7 +72,10 @@ Tesseract is an optical character recognition engine for various operating syste
 It is free software, released under the Apache License. [Wikipedia]</div><div
 class="description paddleocr">
 PaddleOCR aims to create multilingual, awesome, leading, and practical OCR tools
-that help users train better models and apply them into practice. [PaddleOCR]</div></div><div
+that help users train better models and apply them into practice. [PaddleOCR]</div><div
+class="description mistral">
+Pixtral is trained to understand both natural images and documents,
+achieving 52.5% on the MMMU reasoning benchmark, surpassing a number of larger models. [Mistral AI]</div></div><div
 class="card-controls">
 <button
 class="run-btn">
