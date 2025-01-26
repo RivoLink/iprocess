@@ -73,6 +73,7 @@
                         <div class="dropdown-content">
                             <a href="#" data-value="tesseract">Tesseract</a>
                             <a href="#" data-value="paddleocr">Paddleocr</a>
+                            <a href="#" data-value="mistral">Mistral: Pixtral</a>
                         </div>
                         <span class="dropdown-act dropdown-icon">&#9998;</span>
                     </div>
@@ -83,6 +84,10 @@
                     <div class="description paddleocr">
                         PaddleOCR aims to create multilingual, awesome, leading, and practical OCR tools 
                         that help users train better models and apply them into practice. [PaddleOCR]
+                    </div>
+                    <div class="description mistral">
+                        Pixtral is trained to understand both natural images and documents, 
+                        achieving 52.5% on the MMMU reasoning benchmark, surpassing a number of larger models. [Mistral AI]
                     </div>
                 </div>
                 <div class="card-controls">
