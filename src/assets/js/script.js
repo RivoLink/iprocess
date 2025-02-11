@@ -261,7 +261,7 @@ function runProcessEvent(parent) {
         const url = 'https://api.rivolink.mg/api/image/ocr/v1/check/' + process_id;
 
         fleet.ajaxGet(url, window._token, (result = {}) => {
-            if ((result.code == 'PENDING')) {
+            if (result.code == 'PENDING') {
                 if (currLoop < maxLoops) {
                     checkOutput(process_id, params, maxLoops, currLoop + 1);
                 } else {
