@@ -6,6 +6,7 @@ on:
       - main
       - release
       - fix/*
+      - chore/*
       - feature/*
 
 jobs:
