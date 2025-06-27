@@ -149,7 +149,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.rivolink.mg/fleet/1.1.0/fleet.min.js"></script>
+    <script src="https://cdn.rivolink.mg/fleet/1.1.2/fleet.min.js"></script>
 
     <script>
         window._token = '<?=$token?>';
