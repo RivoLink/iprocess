@@ -74,6 +74,7 @@
                             <a href="#" data-value="tesseract">Tesseract</a>
                             <a href="#" data-value="paddleocr">Paddleocr</a>
                             <a href="#" data-value="mistral">Pixtral by Mistral</a>
+                            <a href="#" data-value="google">Gemini by Google</a>
                         </div>
                         <span class="dropdown-act dropdown-icon">&#9998;</span>
                     </div>
@@ -88,6 +89,10 @@
                     <div class="description mistral">
                         Pixtral is trained to understand both natural images and documents, 
                         achieving 52.5% on the MMMU reasoning benchmark, surpassing a number of larger models. [Mistral AI]
+                    </div>
+                    <div class="description google">
+                        Gemini is an intelligent AI model, capable of reasoning through its thoughts before responding, 
+                        resulting in enhanced performance and improved accuracy. [DeepMind]
                     </div>
                 </div>
                 <div class="card-controls">
