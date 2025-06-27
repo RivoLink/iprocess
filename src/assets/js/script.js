@@ -1,20 +1,18 @@
 /* global fleet */ // eslint config
 
 document.addEventListener('DOMContentLoaded', () => {
-    fleet.global = {};
-
-    const isLight = (localStorage.getItem('iprocess-theme') == 'light');
+    const isLight = (fleet.$load('theme') == 'light');
     
     fleet.setData(document.body, {theme: isLight ? 'light' : 'dark'});
     fleet.setText('.theme-toggle', isLight ? '🌙 Dark Mode' : '☀️ Light Mode');
 
     fleet.select('.theme-toggle').addEventListener('click', (e) => {
-        const isDark = (fleet.getData(document.body, 'theme') === 'dark');
+        const newLight = (fleet.getData(document.body, 'theme') === 'dark');
     
-        fleet.setData(document.body, {theme: isDark ? 'light' : 'dark'});
-        fleet.setText(e.target, isDark ? '🌙 Dark Mode' : '☀️ Light Mode');
-        
-        localStorage.setItem('iprocess-theme', isDark ? 'light' : 'dark');
+        fleet.setData(document.body, {theme: newLight ? 'light' : 'dark'});
+        fleet.setText(e.target, newLight ? '🌙 Dark Mode' : '☀️ Light Mode');
+
+        fleet.$save('theme', newLight ? 'light' : 'dark');
     });
     
     fleet.find('modal-image').addEventListener('click', (e) => {
@@ -330,11 +328,11 @@ function runProcessEvent(parent) {
 }
 
 function saveWebcamSize() {
-    if (fleet.global.savedSize) {
+    if (fleet.$get('saved-size')) {
         return;
     }
 
-    fleet.global.savedSize = true;
+    fleet.$set('saved-size', true);
 
     const rect = fleet
         .select('.webcam-content video')
@@ -352,7 +350,7 @@ function startWebcam() {
     }).catch(() => {
         return navigator.mediaDevices.getUserMedia({video: true});
     }).then((stream) => {
-        fleet.global.stream = stream;
+        fleet.$set('stream', stream);
 
         fleet.setCSS('.webcam-preview', {display: 'none'});
         fleet.setCSS('.video-container', {display: 'flex'});
@@ -367,13 +365,13 @@ function startWebcam() {
 }
 
 function stopWebcam() {
-    if (fleet.global.stream) {
-        fleet.global.stream
-            .getTracks()
-            .forEach(track => track.stop());
+    const stream = fleet.$get('stream');
+
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
     }
 
-    fleet.global.stream = null;
+    fleet.$set('stream', null);
     fleet.find('webcam').srcObject = null;
 }
 
