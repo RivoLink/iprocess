@@ -25,4 +25,4 @@ jobs:
           playbook: .ansible/playbooks/deploy.yaml
           inventory: |
             [iprocess]
-            iprocess.rivolink.mg ansible_user=rivol7660
+            iprocess.rivolink.mg ansible_user=rivol3009
